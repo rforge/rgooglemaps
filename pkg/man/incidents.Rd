@@ -30,7 +30,7 @@ These are 5000 random rows from the 2012 crime data recorded in San Francisco.
   }
 }
 \details{
-
+crime data recorded in San Francisco
 }
 \source{
 URL https://data.sfgov.org/

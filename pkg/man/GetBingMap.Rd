@@ -39,18 +39,23 @@ the map tile.}
 \examples{
 
 if (0){
-  #for bing maps you will need your own API key, sign up at https://msdn.microsoft.com/en-us/library/ff428642.aspx
+  #for bing maps you will need your own API key, 
+  #sign up at https://msdn.microsoft.com/en-us/library/ff428642.aspx
   apiKey = scan("C:/Users/loecherm/Dropbox/stuff/bingAPIkey.txt")
-  map1=GetBingMap(center=c(47.619048,-122.35384),zoom=15,apiKey=apiKey, verbose=1, destfile="Seattle.png") 
+  map1=GetBingMap(center=c(47.619048,-122.35384),zoom=15,apiKey=apiKey, 
+                  verbose=1, destfile="Seattle.png") 
   PlotOnStaticMap(map1)
   m="&pp=47.620495,-122.34931;21;AA&pp=47.619385,-122.351485;;AB&pp=47.616295,-122.3556;22"
-  map2=GetBingMap(center=c(47.619048,-122.35384),zoom=15,markers=m,apiKey=apiKey, verbose=1, destfile="Seattle2.png")
+  map2=GetBingMap(center=c(47.619048,-122.35384),zoom=15,markers=m,apiKey=apiKey, 
+                  verbose=1, destfile="Seattle2.png")
   
-  PlotOnStaticMap(map2,lat=c(47.620495,47.619385,47.616295),lon=c(-122.34931,-122.351485,-122.3556))
+  PlotOnStaticMap(map2,lat=c(47.620495,47.619385,47.616295),
+                  lon=c(-122.34931,-122.351485,-122.3556))
   	
   m="&pp=49.28273,-123.12074;22&pp=44.05207,-123.08675;22"
-  #http://dev.virtualearth.net/REST/v1/Imagery/Map/Road/47.677006,-122.125526/admindivision1?ms=500,270&key=
-  map3= GetBingMap(center=c(47.677006,-122.125526),zoom=6,markers=m,apiKey=apiKey, verbose=1, destfile="Seattle2.png")
+  
+  map3= GetBingMap(center=c(47.677006,-122.125526),zoom=6,markers=m,apiKey=apiKey,
+                   verbose=1, destfile="Seattle2.png")
   #plotmap(map=map3)
   m=cbind.data.frame(lat=c(49.28273,44.05207),lon=c(-123.12074,-123.08675),col=c(3:4))
   PlotOnStaticMap(map3, lat =m$lat,lon=m$lon,col=m$col,pch=19)

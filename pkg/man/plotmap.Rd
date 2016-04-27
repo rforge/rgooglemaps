@@ -35,7 +35,8 @@ This function is the workhorse of the package RgoogleMaps. It overlays plot on b
 if (0){
   mapBG1 = plotmap("Brandenburg Gate, Berlin", zoom = 15)
 
-  #for bing maps you will need your own API key, sign up at https://msdn.microsoft.com/en-us/library/ff428642.aspx
+  #for bing maps you will need your own API key, 
+  #sign up at https://msdn.microsoft.com/en-us/library/ff428642.aspx
   apiKey = scan("C:/Users/loecherm/Dropbox/stuff/bingAPIkey.txt")
   mapBG2 = plotmap("Brandenburg Gate, Berlin", zoom = 15, API = "bing", apiKey=apiKey)
   

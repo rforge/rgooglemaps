@@ -2,7 +2,7 @@ degreeAxis = structure(function#axis with degrees
 ### add an axis with degree labels
 (
   side, ##<< integer; see \link{axis}
-  at, ##<< numeric; if missing, \link{axTicks} is called for nice values; see \link{axis}
+  at=NULL, ##<< numeric; if missing, \link{axTicks} is called for nice values; see \link{axis}
   labels, ##<< character; if omitted labels are constructed with degree symbols, ending in N/S/E/W; in case of negative degrees, sign is reversed and S or W is added; see \link{axis}
   MyMap, ##<< optional map object to be passed
   ... ##<< optional arguments to \link{axis}
@@ -24,7 +24,7 @@ degreeAxis = structure(function#axis with degrees
 	paste(abs(x), "*degree", dir[pos])
   }
     USR = par('usr')
-	browser()
+	#browser()
     if (is.null(at) | missing(at)) {
         at = axTicks(side)
 		#if (!missing(MyMap)) atLon = pretty(XY2LatLon(MyMap, X=USR[1:2],Y=USR[3])[,"lon"]) else atLon=at;

@@ -8,7 +8,7 @@ the map tile.}
     -122.325, 47.61, -122.107), size = c(640, 640), destfile, 
     zoom = 12, markers, path = "", maptype = c("Road", "Aerial ", 
         "AerialWithLabels")[1], format = c("png", "gif", "jpg", 
-        "jpg-baseline", "png8", "png32")[1], RETURNIMAGE = TRUE, 
+        "jpg-baseline", "png8", "png32")[1], extraURL = "", RETURNIMAGE = TRUE, 
     GRAYSCALE = FALSE, NEWMAP = TRUE, SCALE = 1, apiKey = NULL, 
     verbose = 0)}
 \arguments{
@@ -21,6 +21,7 @@ the map tile.}
   \item{path}{(optional) defines a single path of two or more connected points to overlay on the image at specified locations. This parameter takes a string of point definitions separated by the pipe character (|)}
   \item{maptype}{defines the type of map to construct. See https://msdn.microsoft.com/en-us/library/ff701724.aspx}
   \item{format}{(optional) defines the format of the resulting image. By default, the Static Maps API creates GIF images. There are several possible formats including GIF, JPEG and PNG types. Which format you use depends on how you intend to present the image. JPEG typically provides greater compression, while GIF and PNG provide greater detail. This version supports only PNG.}
+  \item{extraURL}{custom URL suffix}
   \item{RETURNIMAGE}{return image yes/no default: TRUE}
   \item{GRAYSCALE}{Boolean toggle; if TRUE the colored map tile is rendered into a black & white image, see \link{RGB2GRAY}}
   \item{NEWMAP}{if TRUE, query the Google server and save to \code{destfile}, if FALSE load from destfile.}
@@ -41,7 +42,7 @@ the map tile.}
 if (0){
   #for bing maps you will need your own API key, 
   #sign up at https://msdn.microsoft.com/en-us/library/ff428642.aspx
-  apiKey = scan("C:/Users/loecherm/Dropbox/stuff/bingAPIkey.txt")
+  apiKey = scan("C:/Users/loecherm/Dropbox/stuff/bingAPIkey.txt",what="")
   map1=GetBingMap(center=c(47.619048,-122.35384),zoom=15,apiKey=apiKey, 
                   verbose=1, destfile="Seattle.png") 
   PlotOnStaticMap(map1)
@@ -59,5 +60,29 @@ if (0){
   #plotmap(map=map3)
   m=cbind.data.frame(lat=c(49.28273,44.05207),lon=c(-123.12074,-123.08675),col=c(3:4))
   PlotOnStaticMap(map3, lat =m$lat,lon=m$lon,col=m$col,pch=19)
+  
+  #overlay traffic:
+  #Get a map with Road imagery and traffic flow based on a query.
+  #This example gets a map with road imagery based on a query result Bellevue, Washington. 
+  #Traffic flow is also included on the map.
+  
+  #http://dev.virtualearth.net/REST/V1/Imagery/Map/Road/Bellevue\%20Washington
+  #?mapLayer=TrafficFlow&key=BingMapsKey
+  #note that we are using the extraURL argument to pass any extra parameters:
+  map4 = GetBingMap(center="Bellevue\%20Washington", zoom=12, extraURL="&mapLayer=TrafficFlow", 
+                    apiKey=apiKey,verbose=1, destfile="BellevueTraffic.png")
+  PlotOnStaticMap(map4)
+  
+  #Get a map with Road imagery that displays a route.
+  #This example gets a map with road imagery that displays a driving 
+  #route between the cities of Seattle and Redmond in Washington State. 
+  
+  #note that we are using the extraURL argument to pass any extra parameters:
+  #http://dev.virtualearth.net/REST/v1/Imagery/Map/Road/Routes
+  #?wp.0=Seattle,WA;64;1&wp.1=Redmond,WA;66;2&key=BingMapsKey 
+  map5 = GetBingMap(center="Bellevue\%20Washington", zoom=8, 
+                    extraURL="&Routes?wp.0=Seattle,WA;64;1&wp.1=Redmond,WA;66;2", 
+                  apiKey=apiKey,verbose=1, destfile="Seattle2Redmond.png")
+  PlotOnStaticMap(map5)
 }
 }

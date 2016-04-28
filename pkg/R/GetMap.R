@@ -2,6 +2,7 @@
 ### Query the Google server for a static map tile, defined primarily by its 
 ### center and zoom. Many additional arguments allow the user to customize 
 ### the map tile.
+### documentation at https://developers.google.com/maps/documentation/staticmaps/
 (
   center=c(lat=42, lon=-76), ##<< optional center (lat first,lon second  )
   size = c(640,640), ##<< desired size of the map tile image. defaults to maximum size returned by the Gogle server, which is 640x640 pixels 
@@ -15,6 +16,7 @@
   sensor = "true",  ##<< specifies whether the application requesting the static map is using a sensor to determine the user`s location. This parameter is now required for all static map requests.
   maptype = c("roadmap","mobile","satellite","terrain","hybrid","mapmaker-roadmap","mapmaker-hybrid")[2], ##<< defines the type of map to construct. There are several possible maptype values, including satellite, terrain, hybrid, and mobile. 
   format = c("gif","jpg","jpg-baseline","png8","png32")[5],  ##<< (optional) defines the format of the resulting image. By default, the Static Maps API creates GIF images. There are several possible formats including GIF, JPEG and PNG types. Which format you use depends on how you intend to present the image. JPEG typically provides greater compression, while GIF and PNG provide greater detail. This version supports only PNG.
+  extraURL="", ##<< custom URL suffix
   RETURNIMAGE = TRUE, ##<< return image yes/no default: TRUE
   GRAYSCALE =FALSE, ##<< Boolean toggle; if TRUE the colored map tile is rendered into a black & white image, see \link{RGB2GRAY}
   NEWMAP = TRUE, ##<< if TRUE, query the Google server and save to \code{destfile}, if FALSE load from destfile. 
@@ -76,6 +78,8 @@
 	}
 	
 	url <- paste(url, path, sep="");
+	url <- paste(url, extraURL, sep="");
+	
   if (!missing(hl)) url <- paste0(url, "&language=",hl);
   if (SCALE == 2) url <- paste(url, "&scale=", SCALE, sep="");
 	
@@ -156,6 +160,11 @@ MyMap <- GetMap(center=center, zoom=zoom,destfile = "MyTile3.png",
   #use implicit geo coding and display labels in Korean:
   BrooklynMap <- GetMap(center="Brooklyn", zoom=13, hl="ko")
   PlotOnStaticMap(BrooklynMap)
+  
+  #no highways
+  ManHatMap <- GetMap(center="Lower Manhattan", zoom=14, 
+                      extraURL="&style=feature:road.highway|visibility:off")
+  PlotOnStaticMap(ManHatMap)
   
    #The example below defines a polygonal area within Manhattan, passed a series of 
   #intersections as locations:

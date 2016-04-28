@@ -89,11 +89,14 @@
   }
 }, ex = function(){
   if (0){
+    #####################Google maps#############################
     mapBG1 = plotmap("Brandenburg Gate, Berlin", zoom = 15)
   
+    #####################bing maps#############################
+    
     #for bing maps you will need your own API key, 
     #sign up at https://msdn.microsoft.com/en-us/library/ff428642.aspx
-    apiKey = scan("C:/Users/loecherm/Dropbox/stuff/bingAPIkey.txt")
+    apiKey = scan("C:/Users/loecherm/Dropbox/stuff/bingAPIkey.txt",what="")
     mapBG2 = plotmap("Brandenburg Gate, Berlin", zoom = 15, API = "bing", apiKey=apiKey)
     
     latlon <- cbind.data.frame(lat = c(38.898648,38.889112, 38.880940), 
@@ -101,5 +104,8 @@
     
     
     map3 = plotmap(lat = latlon$lat, lon = latlon$lon, API = "bing", apiKey=apiKey)
+    
+    
+    #####################OSM maps#############################
   }
 })

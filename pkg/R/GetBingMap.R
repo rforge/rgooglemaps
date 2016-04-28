@@ -17,6 +17,7 @@
 #  sensor = "true",  ##<< specifies whether the application requesting the static map is using a sensor to determine the user`s location. This parameter is now required for all static map requests.
   maptype = c("Road","Aerial ","AerialWithLabels")[1], ##<< defines the type of map to construct. See https://msdn.microsoft.com/en-us/library/ff701724.aspx
   format = c("png","gif","jpg","jpg-baseline","png8","png32")[1],  ##<< (optional) defines the format of the resulting image. By default, the Static Maps API creates GIF images. There are several possible formats including GIF, JPEG and PNG types. Which format you use depends on how you intend to present the image. JPEG typically provides greater compression, while GIF and PNG provide greater detail. This version supports only PNG.
+  extraURL="", ##<< custom URL suffix
   RETURNIMAGE = TRUE, ##<< return image yes/no default: TRUE
   GRAYSCALE =FALSE, ##<< Boolean toggle; if TRUE the colored map tile is rendered into a black & white image, see \link{RGB2GRAY}
   NEWMAP = TRUE, ##<< if TRUE, query the Google server and save to \code{destfile}, if FALSE load from destfile. 
@@ -69,8 +70,10 @@
   #paste0(bingURL,"Road/47.619048,-122.35384/15?mapSize=640,640&key=",apiKey)
  
   #browser()
-  
-	if (is.null(center) & missing(zoom)) {#let the Static Maps API determine the correct center and zoom level implicitly, based on evaluation of the position of the markers:
+  # if (!missing(extraURL)) {
+  #   url <- paste0(bingURL,extraURL,"&format=", format)
+  # } else 
+  if (is.null(center) & missing(zoom)) {#let the Static Maps API determine the correct center and zoom level implicitly, based on evaluation of the position of the markers:
 		stopifnot(!missing(markers) | path != "");
 		url <- paste0(bingURL,  "size=",  s, "&maptype=", maptype, "&format=", format)
 	} else if (missing(mapArea)) {
@@ -96,6 +99,8 @@
 	}
 	
 	url <- paste(url, path, sep="");
+	url <- paste(url, extraURL, sep="");
+	
   #if (!missing(hl)) url <- paste0(url, "&language=",hl);
   #if (SCALE == 2) url <- paste(url, "&scale=", SCALE, sep="");
 	
@@ -158,7 +163,7 @@
   if (0){
     #for bing maps you will need your own API key, 
     #sign up at https://msdn.microsoft.com/en-us/library/ff428642.aspx
-    apiKey = scan("C:/Users/loecherm/Dropbox/stuff/bingAPIkey.txt")
+    apiKey = scan("C:/Users/loecherm/Dropbox/stuff/bingAPIkey.txt",what="")
     map1=GetBingMap(center=c(47.619048,-122.35384),zoom=15,apiKey=apiKey, 
                     verbose=1, destfile="Seattle.png") 
     PlotOnStaticMap(map1)
@@ -176,6 +181,30 @@
     #plotmap(map=map3)
     m=cbind.data.frame(lat=c(49.28273,44.05207),lon=c(-123.12074,-123.08675),col=c(3:4))
     PlotOnStaticMap(map3, lat =m$lat,lon=m$lon,col=m$col,pch=19)
+    
+    #overlay traffic:
+    #Get a map with Road imagery and traffic flow based on a query.
+    #This example gets a map with road imagery based on a query result Bellevue, Washington. 
+    #Traffic flow is also included on the map.
+    
+    #http://dev.virtualearth.net/REST/V1/Imagery/Map/Road/Bellevue%20Washington
+    #?mapLayer=TrafficFlow&key=BingMapsKey
+    #note that we are using the extraURL argument to pass any extra parameters:
+    map4 = GetBingMap(center="Bellevue%20Washington", zoom=12, extraURL="&mapLayer=TrafficFlow", 
+                      apiKey=apiKey,verbose=1, destfile="BellevueTraffic.png")
+    PlotOnStaticMap(map4)
+    
+    #Get a map with Road imagery that displays a route.
+    #This example gets a map with road imagery that displays a driving 
+    #route between the cities of Seattle and Redmond in Washington State. 
+    
+    #note that we are using the extraURL argument to pass any extra parameters:
+    #http://dev.virtualearth.net/REST/v1/Imagery/Map/Road/Routes
+    #?wp.0=Seattle,WA;64;1&wp.1=Redmond,WA;66;2&key=BingMapsKey 
+    map5 = GetBingMap(center="Bellevue%20Washington", zoom=8, 
+                      extraURL="&Routes?wp.0=Seattle,WA;64;1&wp.1=Redmond,WA;66;2", 
+                    apiKey=apiKey,verbose=1, destfile="Seattle2Redmond.png")
+    PlotOnStaticMap(map5)
   }
 })
 

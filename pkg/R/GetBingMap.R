@@ -142,7 +142,7 @@
 	if (verbose) print(url);
 	if (verbose == -1) browser();
 	if (verbose < 2 & NEWMAP) 
-	  download.file(url, destfile, mode="wb", quiet = TRUE);
+	  suppressWarnings(download.file(url, destfile, mode="wb", quiet = TRUE));
 	
 	if (GRAYSCALE) {
 		myTile <- readPNG(destfile, native=FALSE);

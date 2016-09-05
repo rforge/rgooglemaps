@@ -148,7 +148,7 @@
   MyMap <- GetMap(center=center, zoom=zoom,markers=markers,destfile = "MyTile1.png");
   #Note that in the presence of markers one often needs to add some extra padding to the 
   #latitude range to accomodate the extent of the top most marker
-  
+  if (0){#takes too long to run for CRAN check
   #add a path, i.e. polyline:
 MyMap <- GetMap(center=center, zoom=zoom,destfile = "MyTile3.png",
   path = paste0("&path=color:0x0000ff|weight:5|40.737102,-73.990318|",
@@ -196,6 +196,6 @@ MyMap <- GetMap(center=center, zoom=zoom,destfile = "MyTile3.png",
   #          "markers=color:green|label:G|40.711614,-74.012318&markers=color:red|",
   #          "color:red|label:C|40.718217,-73.998284"), 
   #           destfile = "MyTile1.png",  RETURNIMAGE = FALSE);
- 	
+  }
 })
 

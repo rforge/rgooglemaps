@@ -20,3 +20,8 @@ Changes in Version 1.3.0
   o bug fix: boundary condition problems at lon= +/- 180, fixed now
   o bug fix: dataframe markers argument to GetMap did not work properly, fixed now
   o new feature: added full support for Microsoft bing map tiles
+
+  Changes in Version 1.4.1
+
+  o new feature: added full support for OpenStreetMap maps
+  o new feature: added functions to fetch individual map tiles and stitch them together. This has the side effect of making these maps available offline

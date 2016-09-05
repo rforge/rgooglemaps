@@ -6,7 +6,7 @@ This function is the workhorse of the package RgoogleMaps. It overlays plot on b
 \usage{plotmap(lat, lon, map, zoom = NULL, API = c("google", "OSM", 
     "bing")[1], maptype = c("roadmap", "mobile", "satellite", 
     "terrain", "hybrid", "mapmaker-roadmap", "mapmaker-hybrid")[2], 
-    destfile, data, alpha = 0.6, col = 1, apiKey = NULL, verbose = 0, 
+    destfile, data, alpha = 1, col = 1, apiKey = NULL, verbose = 0, 
     ...)}
 \arguments{
   \item{lat}{latitude values to be overlaid}
@@ -47,9 +47,12 @@ if (0){
                               lon = c(-77.037692, -77.050273, -77.03660));
   
   
-  map3 = plotmap(lat = latlon$lat, lon = latlon$lon, API = "bing", apiKey=apiKey)
+  map3 = plotmap(lat = latlon$lat, lon = latlon$lon, API = "bing", apiKey=apiKey,
+                 col = "purple", pch="X",cex=1.5)
   
   
   #####################OSM maps#############################
+  map4 = plotmap(lat = latlon$lat, lon = latlon$lon, API = "OSM", zoom=15,
+                 col = "purple", pch="X",cex=1.5)
 }
 }

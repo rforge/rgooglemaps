@@ -11,7 +11,7 @@
   maptype = c("roadmap","mobile","satellite","terrain","hybrid","mapmaker-roadmap","mapmaker-hybrid")[2], ##<< defines the type of map to construct. There are several possible maptype values, including satellite, terrain, hybrid, and mobile. 
   destfile, ##<<  File to save the map image to
   data, ##<< data to look up variables in
-  alpha = 0.6, ##<< opacity
+  alpha = 1, ##<< opacity
   col = 1, ##<< plot color
   apiKey = NULL, ##<< optional API key (allows for higher rate of downloads for Google); mandatory for Bing maps
   verbose = 0, ##<< level of verbosity 
@@ -55,14 +55,16 @@
     invisible(map)
   }    
   
-  if (is.numeric(lat) & is.numeric(lat) ){
+  if (is.numeric(lat) & is.numeric(lon) ){
+    bb=qbbox(lat,lon)
     if (missing(map)){
       if (missing(zoom)){
-        bb=qbbox(lat,lon)
         if (API == "google") {
           map = GetMap.bbox(bb$lonR, bb$latR, maptype=maptype,destfile=destfile)
         } else if (API == "OSM") {
-          map = GetOsmMap(lonR= bb$lonR, latR =bb$latR, zoom = zoom,maptype=maptype,destfile=destfile)
+          #map = GetOsmMap(lonR= bb$lonR, latR =bb$latR, zoom = zoom,maptype=maptype,destfile=destfile)
+          map = GetMapTiles(lonR=bb$lonR, latR=bb$latR,zoom=zoom, verbose=verbose)
+          browser()
         } else if (API == "bing") {
           bbM=do.call("cbind",bb);
           ll= bbM[1,] #lower left corner
@@ -75,7 +77,9 @@
         if (API == "google") {
           map = GetMap(center=center, zoom = zoom,maptype=maptype,destfile=destfile)
         } else if (API == "OSM") {
-          map = GetOsmMap(center=center, zoom = zoom,maptype=maptype,destfile=destfile)
+          #map = GetOsmMap(center=center, zoom = zoom,maptype=maptype,destfile=destfile)
+          map = GetMapTiles(lonR=bb$lonR, latR=bb$latR,zoom=zoom, verbose=verbose)
+          #browser()
         } else if (API == "bing") {
           map = GetBingMap(center=center, zoom = zoom, maptype=maptype, destfile=destfile,apiKey=apiKey)
         } 
@@ -83,8 +87,13 @@
       }
     } 
     if (verbose>1) browser()
-    plotclr = AddAlpha(as.numeric(col), alpha = alpha, verbose = 0)
-    PlotOnStaticMap(MyMap=map, lat=lat,lon=lon, col=plotclr, ...)
+    plotclr = col
+    if (alpha < 1 & !is.na(as.numeric(col))) plotclr = AddAlpha(as.numeric(col), alpha = alpha, verbose = 0)
+    if (class(map) ==  "mapTiles") {
+      PlotOnMapTiles(map,lat=lat,lon=lon,col=plotclr, ...)
+    } else {#if (class(map) ==  "staticMap") {
+      PlotOnStaticMap(MyMap=map, lat=lat,lon=lon, col=plotclr, ...)
+    }
     invisible(map)
   }
 }, ex = function(){
@@ -103,9 +112,12 @@
                                 lon = c(-77.037692, -77.050273, -77.03660));
     
     
-    map3 = plotmap(lat = latlon$lat, lon = latlon$lon, API = "bing", apiKey=apiKey)
+    map3 = plotmap(lat = latlon$lat, lon = latlon$lon, API = "bing", apiKey=apiKey,
+                   col = "purple", pch="X",cex=1.5)
     
     
     #####################OSM maps#############################
+    map4 = plotmap(lat = latlon$lat, lon = latlon$lon, API = "OSM", zoom=15,
+                   col = "purple", pch="X",cex=1.5)
   }
 })

@@ -7,17 +7,20 @@
   zoom ##<< optional zoom level. If missing, taken from \code{MyMap}
 ){
 #X and Y are the centered integer pixel values, i.e. they should be zero in the center of the matrix/image !
-
-   lat.center <- MyMap[[1]];
-   lon.center <- MyMap[[2]];
-   if (missing(zoom)) zoom <- MyMap[[3]];
-      
-   mycenter <- LatLon2XY(lat.center,lon.center,zoom);
-   
-   #first transform to original x,y coordinates
-   x <- mycenter$Tile[,"X"] + (X+mycenter$Coords[,"x"])/256;
-   y <- mycenter$Tile[,"Y"] - (Y-mycenter$Coords[,"y"])/256;
-   
+  if (!missing(MyMap)){
+     lat.center <- MyMap[[1]];
+     lon.center <- MyMap[[2]];
+     if (missing(zoom)) zoom <- MyMap[[3]];
+        
+     mycenter <- LatLon2XY(lat.center,lon.center,zoom);
+     
+     #first transform to original x,y coordinates
+     x <- mycenter$Tile[,"X"] + (X+mycenter$Coords[,"x"])/256;
+     y <- mycenter$Tile[,"Y"] - (Y-mycenter$Coords[,"y"])/256;
+   } else {
+     x = X
+     y = Y
+   }
    ytilde <- 1 - y/2^(zoom-1);
    yy = (exp(2*pi* ytilde) - 1)/(exp(2*pi* ytilde) + 1);
    ShiftLat <- function(yy){

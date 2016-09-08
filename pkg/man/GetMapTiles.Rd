@@ -7,7 +7,7 @@ X and Y ID and zoom. For offline usage, these map tiles are stored in a local di
     latR, nTiles = c(3, 3), zoom = 13, urlBase = c("http://a.tile.openstreetmap.org/", 
         "http://mt1.google.com/vt/lyrs=m")[1], CheckExistingFiles = TRUE, 
     TotalSleep = NULL, tileExt = ".png", tileDir = "~/mapTiles/OSM/", 
-    returnTiles = TRUE, verbose = 0)}
+    returnTiles = FALSE, verbose = 0)}
 \arguments{
   \item{center}{optional center (lat first,lon second  )}
   \item{lonR}{longitude range}
@@ -44,6 +44,9 @@ tmp=GetMapTiles("Hoboken, NJ", zoom=16,nTiles = c(30,30), verbose=1,
                 tileDir= "~/mapTiles/Google/")
 PlotOnMapTiles(tmp2)
 
+tmp2=GetMapTiles("Werderscher Markt 15, 10117 Berlin", zoom=15,nTiles = c(20,20), verbose=0,
+                 urlBase = "http://mt1.google.com/vt/lyrs=m", 
+                 tileDir= "~/mapTiles/Google/")
 ###combine with leaflet:
 #From:http://stackoverflow.com/questions/5050851/
 #     best-lightweight-web-server-only-static-content-for-windows
@@ -58,9 +61,11 @@ m = leaflet::leaflet() \%>\%
 m = leaflet::leaflet() \%>\% 
   addTiles( urlTemplate = "http:/localhost:8000/mapTiles/Google/{z}_{x}_{y}.png")
 m = m \%>\% leaflet::setView(-74.01312, 40.71180, zoom = 16)
-m \%>\% leaflet::addMarkers(-74.01312, 40.71180)
+m = m \%>\% leaflet::addMarkers(-74.01312, 40.71180)
 
-
+#Quadriga:
+m = m \%>\% leaflet::setView(13.39780, 52.51534, zoom = 16)
+m = m \%>\% leaflet::addMarkers(13.39780, 52.51534)
 }
 
 }

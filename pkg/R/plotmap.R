@@ -7,7 +7,7 @@
   lon, ##<< longitude values to be overlaid
   map, ##<< optional map object 
   zoom = NULL, ##<< Google maps zoom level
-  API = c("google","OSM","bing")[1], ##<< choice  of map tile API
+  API = c("google","OSM","bing", "google2")[1], ##<< choice  of map tile API
   maptype = c("roadmap","mobile","satellite","terrain","hybrid","mapmaker-roadmap","mapmaker-hybrid")[2], ##<< defines the type of map to construct. There are several possible maptype values, including satellite, terrain, hybrid, and mobile. 
   destfile, ##<<  File to save the map image to
   data, ##<< data to look up variables in
@@ -59,12 +59,19 @@
     bb=qbbox(lat,lon)
     if (missing(map)){
       if (missing(zoom)){
+        zoom <- min(MaxZoom(bb$latR, bb$lonR, c(720,720)))
         if (API == "google") {
           map = GetMap.bbox(bb$lonR, bb$latR, maptype=maptype,destfile=destfile)
         } else if (API == "OSM") {
           #map = GetOsmMap(lonR= bb$lonR, latR =bb$latR, zoom = zoom,maptype=maptype,destfile=destfile)
           map = GetMapTiles(lonR=bb$lonR, latR=bb$latR,zoom=zoom, verbose=verbose)
-          browser()
+          #browser()
+        } else if (API == "google2") {
+          #map = GetOsmMap(lonR= bb$lonR, latR =bb$latR, zoom = zoom,maptype=maptype,destfile=destfile)
+          map = GetMapTiles(lonR=bb$lonR, latR=bb$latR,zoom=zoom, verbose=verbose,
+                            urlBase = "http://mt1.google.com/vt/lyrs=m", 
+                            tileDir= "~/mapTiles/Google/")
+          #browser()
         } else if (API == "bing") {
           bbM=do.call("cbind",bb);
           ll= bbM[1,] #lower left corner
@@ -79,6 +86,12 @@
         } else if (API == "OSM") {
           #map = GetOsmMap(center=center, zoom = zoom,maptype=maptype,destfile=destfile)
           map = GetMapTiles(lonR=bb$lonR, latR=bb$latR,zoom=zoom, verbose=verbose)
+          #browser()
+        } else if (API == "google2") {
+          #map = GetOsmMap(lonR= bb$lonR, latR =bb$latR, zoom = zoom,maptype=maptype,destfile=destfile)
+          map = GetMapTiles(lonR=bb$lonR, latR=bb$latR,zoom=zoom, verbose=verbose,
+                            urlBase = "http://mt1.google.com/vt/lyrs=m", 
+                            tileDir= "~/mapTiles/Google/")
           #browser()
         } else if (API == "bing") {
           map = GetBingMap(center=center, zoom = zoom, maptype=maptype, destfile=destfile,apiKey=apiKey)

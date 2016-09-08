@@ -4,7 +4,7 @@
 \description{note the similarity in name to PBSmapping::plotMap
 This function is the workhorse of the package RgoogleMaps. It overlays plot on background image of map tile.}
 \usage{plotmap(lat, lon, map, zoom = NULL, API = c("google", "OSM", 
-    "bing")[1], maptype = c("roadmap", "mobile", "satellite", 
+    "bing", "google2")[1], maptype = c("roadmap", "mobile", "satellite", 
     "terrain", "hybrid", "mapmaker-roadmap", "mapmaker-hybrid")[2], 
     destfile, data, alpha = 1, col = 1, apiKey = NULL, verbose = 0, 
     ...)}

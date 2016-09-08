@@ -26,7 +26,7 @@
   #SCALE = 1, ##<< use the API's scale parameter to return higher-resolution map images. The scale value is multiplied with the size to determine the actual output size of the image in pixels, without changing the coverage area of the map
   tileExt = ".png", ##<< image type of tile
   tileDir= "~/mapTiles/OSM/", ##<< map tiles are stored in a local directory
-  returnTiles = TRUE, ##<< return tiles in a list?
+  returnTiles = FALSE, ##<< return tiles in a list?
   verbose=0 ##<< level of verbosity
 ){
   ##note<<Note that size is in order (lon, lat)
@@ -72,7 +72,7 @@
   if (verbose>1) browser() 
   if (!dir.exists(tileDir)) {
     if (verbose) cat("trying to create dir",tileDir, "\n")
-    dir.create(tileDir)
+    dir.create(tileDir, recursive = TRUE)
   }
   if (CheckExistingFiles) ExistingFiles=list.files(path=tileDir)
   
@@ -90,7 +90,7 @@
         
         url <- paste0(urlBase, "&x=", x, "&y=", y, "&z=", zoom)
       }
-		  
+		  #browser()
       #print(url)
       # we need to keep the x and y coords to 4 digits!
       #xFake = x
@@ -140,6 +140,9 @@
                   tileDir= "~/mapTiles/Google/")
   PlotOnMapTiles(tmp2)
   
+  tmp2=GetMapTiles("Werderscher Markt 15, 10117 Berlin", zoom=15,nTiles = c(20,20), verbose=0,
+                   urlBase = "http://mt1.google.com/vt/lyrs=m", 
+                   tileDir= "~/mapTiles/Google/")
   ###combine with leaflet:
   #From:http://stackoverflow.com/questions/5050851/
   #     best-lightweight-web-server-only-static-content-for-windows
@@ -154,9 +157,11 @@
   m = leaflet::leaflet() %>% 
     addTiles( urlTemplate = "http:/localhost:8000/mapTiles/Google/{z}_{x}_{y}.png")
   m = m %>% leaflet::setView(-74.01312, 40.71180, zoom = 16)
-  m %>% leaflet::addMarkers(-74.01312, 40.71180)
+  m = m %>% leaflet::addMarkers(-74.01312, 40.71180)
   
-  
+  #Quadriga:
+  m = m %>% leaflet::setView(13.39780, 52.51534, zoom = 16)
+  m = m %>% leaflet::addMarkers(13.39780, 52.51534)
   }
   
 })

@@ -51,8 +51,10 @@
     } else if (API == "bing") {
       map = GetBingMap(getGeoCode(lat), zoom = zoom, maptype=maptype, destfile=destfile,apiKey=apiKey)
     } 
+    #browser()
     PlotOnStaticMap(MyMap=map)
     invisible(map)
+    return(map)
   }    
   
   if (is.numeric(lat) & is.numeric(lon) ){

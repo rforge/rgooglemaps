@@ -36,6 +36,7 @@
   if (is.character(center)) {
     if (verbose) cat("geocoding ", center, "\n")
     center = getGeoCode(center,verbose)
+    if (verbose) cat("result:", center, "\n")
   }
   if (all(c("lat","lon") %in% names(center))) center = center[c("lat","lon")] else names(center) = c("lat","lon")
   ##seealso<< \link{GetMap.bbox}

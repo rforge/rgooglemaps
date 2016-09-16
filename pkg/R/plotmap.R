@@ -3,7 +3,7 @@
 ###This function is the workhorse of the package RgoogleMaps. It overlays plot on background image of map tile.
 
 (
-  lat, ##<< latitude values to be overlaid
+  lat, ##<< latitude values to be overlaid OR string to be geocoded!
   lon, ##<< longitude values to be overlaid
   map, ##<< optional map object 
   zoom = NULL, ##<< Google maps zoom level
@@ -103,7 +103,7 @@
     } 
     if (verbose>1) browser()
     plotclr = col
-    if (alpha < 1 & !is.na(as.numeric(col))) plotclr = AddAlpha(as.numeric(col), alpha = alpha, verbose = 0)
+    if (alpha < 1 & !all(is.na(as.numeric(col)))) plotclr = AddAlpha(as.numeric(col), alpha = alpha, verbose = 0)
     if (class(map) ==  "mapTiles") {
       PlotOnMapTiles(map,lat=lat,lon=lon,col=plotclr, ...)
     } else {#if (class(map) ==  "staticMap") {

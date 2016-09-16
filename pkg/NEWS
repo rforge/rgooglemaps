@@ -24,4 +24,5 @@ Changes in Version 1.3.0
   Changes in Version 1.4.1
 
   o new feature: added full support for OpenStreetMap maps
+  o removed dependency on RJSONIO
   o new feature: added functions to fetch individual map tiles and stitch them together. This has the side effect of making these maps available offline

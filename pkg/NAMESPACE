@@ -9,8 +9,7 @@ import(
   graphics,
   stats,
   utils,
-  png,
-  RJSONIO
+  png
 )
 
 #importFrom(RColorBrewer, brewer.pal)

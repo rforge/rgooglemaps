@@ -9,6 +9,8 @@ import(
   graphics,
   stats,
   utils,
+  grDevices, 
+  methods,
   png
 )
 

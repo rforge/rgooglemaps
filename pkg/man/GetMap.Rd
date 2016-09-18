@@ -50,12 +50,12 @@ documentation at https://developers.google.com/maps/documentation/staticmaps/}
   markers = paste0("&markers=color:blue|label:S|40.702147,-74.015794&markers=color:",
                    "green|label:G|40.711614,-74.012318&markers=color:red|color:red|",
                    "label:C|40.718217,-73.998284")
-  MyMap <- GetMap(center=center, zoom=zoom,markers=markers,destfile = "MyTile1.png");
+  MyMap <- GetMap(center=center, zoom=zoom,markers=markers);
   #Note that in the presence of markers one often needs to add some extra padding to the 
   #latitude range to accomodate the extent of the top most marker
   if (0){#takes too long to run for CRAN check
   #add a path, i.e. polyline:
-MyMap <- GetMap(center=center, zoom=zoom,destfile = "MyTile3.png",
+MyMap <- GetMap(center=center, zoom=zoom,
   path = paste0("&path=color:0x0000ff|weight:5|40.737102,-73.990318|",
   "40.749825,-73.987963|40.752946,-73.987384|40.755823,-73.986397"));
   #use implicit geo coding 

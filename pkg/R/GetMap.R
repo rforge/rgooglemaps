@@ -25,7 +25,7 @@
   verbose=0 ##<< level of verbosity
 ){
   ##note<<Note that size is in order (lon, lat)
-  if (missing(destfile)) destfile=file.path(tempdir(),"mapTile.png")
+  
   if (is.character(center)) {
     if (verbose) cat("geocoding ", center, "\n")
     center = getGeoCode(center,verbose)
@@ -39,49 +39,35 @@
 #   
   stopifnot(all(size <=640));
   
-  fileBase <- substring(destfile,1, nchar(destfile)-4);
-  fileExt <-  substring(destfile,nchar(destfile)-2,nchar(destfile));
-  #save meta information about the image:    
-  if (is.null(center)) {
-    if (verbose) print("Note that when center and zoom are not specified, no meta information on the map tile can be stored. This basically means that R cannot compute proper coordinates. You can still download the map tile and view it in R but overlays are not possible.");
-	  #ans <- readLines(n=1);
-	  #if (ans != "y") return(); 
-	  MetaInfo <- list(lat.center = NULL, lon.center  = NULL, zoom = zoom, 
-	                   url = "google", BBOX = NULL, size=size, SCALE = SCALE);
-	  save(MetaInfo, file = paste(destfile,"rda",sep="."));
-  } else if ( is.numeric(center) & !missing(zoom)) {  
-      MyMap <- list(lat.center = center[1], lon.center  = center[2], zoom = zoom, SCALE = SCALE);
-      BBOX <- list(ll = XY2LatLon(MyMap, -size[1]/2 + 0.5, -size[2]/2 - 0.5), ur = XY2LatLon(MyMap, size[1]/2 + 0.5, size[2]/2 - 0.5) );
-	  MetaInfo <- list(lat.center = center[1], lon.center  = center[2], zoom = zoom, 
-        url = "google", BBOX = BBOX, size=size, SCALE = SCALE);
-	  save(MetaInfo, file = paste(destfile,"rda",sep="."));
-  } 
-
+ 
   if (length(size) < 2) {s <- paste(size,size,sep="x")} else {s <- paste(size,collapse="x");}
-  if (!is.null(center)) center <- paste(center,collapse=",")
-  if (missing(format)){	
-    if ( fileExt == "png") format <- "png32"
+  if (!is.null(center)) {
+    centerNum = center
+    center <- paste(center,collapse=",")
   }
+  # if (missing(format)){	
+  #   if ( fileExt == "png") format <- "png32"
+  # }
  
   googleurl <- "http://maps.google.com/maps/api/staticmap?"; # googleurl <- 'http://maps.google.com/staticmap?';
 	
 	if (!missing(span)){#Images may specify a viewport (defined by latitude and longitude values expressed as degrees) to display around a provided center point by passing a span parameter. Defining a minimum viewport in this manner obviates the need to specify an exact zoom level. The static map service uses the span parameter in conjunction with the size parameter to construct a map of the proper zoom level which includes at least the given viewport constraints.
 		span <- paste(span,collapse=",")
-		url <- paste(googleurl, "center=", center, "&span=", span,  "&size=",  s, "&maptype=", maptype, "&format=", format, "&sensor=", sensor, sep="")
+		urlStr <- paste(googleurl, "center=", center, "&span=", span,  "&size=",  s, "&maptype=", maptype, "&format=", format, "&sensor=", sensor, sep="")
 
 	} else 	if (is.null(center) & missing(zoom)) {#let the Static Maps API determine the correct center and zoom level implicitly, based on evaluation of the position of the markers:
 		stopifnot(!missing(markers) | path != "");
-		url <- paste(googleurl,  "size=",  s, "&maptype=", maptype, "&format=", format, "&sensor=", sensor, sep="")
+		urlStr <- paste(googleurl,  "size=",  s, "&maptype=", maptype, "&format=", format, "&sensor=", sensor, sep="")
 	} else {
 		stopifnot(!is.null(center), !missing(zoom));
-		url <- paste(googleurl, "center=", center, "&zoom=", zoom,  "&size=",  s, "&maptype=", maptype, "&format=", format, "&sensor=", sensor, sep="")
+		urlStr <- paste(googleurl, "center=", center, "&zoom=", zoom,  "&size=",  s, "&maptype=", maptype, "&format=", format, "&sensor=", sensor, sep="")
 	}
 	
-	url <- paste(url, path, sep="");
-	url <- paste(url, extraURL, sep="");
+	urlStr <- paste(urlStr, path, sep="");
+	urlStr <- paste(urlStr, extraURL, sep="");
 	
-  if (!missing(hl)) url <- paste0(url, "&language=",hl);
-  if (SCALE == 2) url <- paste(url, "&scale=", SCALE, sep="");
+  if (!missing(hl)) urlStr <- paste0(urlStr, "&language=",hl);
+  if (SCALE == 2) urlStr <- paste(urlStr, "&scale=", SCALE, sep="");
 	
 	if (!missing(markers)) {
 		#assumes markers is a list with names lat, lon, size (optional), color (optional), char (optional)
@@ -112,29 +98,66 @@
 		  markers.string <- markers;
 		} 
 		
-		url <- paste(url, markers.string, sep="");
+		urlStr <- paste(urlStr, markers.string, sep="");
     
 	}
-  if (!is.null(API_console_key))  url <- paste0(url,"&key=", API_console_key);
+  if (!is.null(API_console_key))  urlStr <- paste0(urlStr,"&key=", API_console_key);
 
-	if (verbose) print(url);
+	if (verbose) print(urlStr);
+	if (is.null(center)) {
+	  if (verbose) print("Note that when center and zoom are not specified, no meta information on the map tile can be stored. This basically means that R cannot compute proper coordinates. You can still download the map tile and view it in R but overlays are not possible.");
+	  #ans <- readLines(n=1);
+	  #if (ans != "y") return(); 
+	  MetaInfo <- list(lat.center = NULL, lon.center  = NULL, zoom = zoom, 
+	                   url = "google", BBOX = NULL, size=size, SCALE = SCALE);
+	  
+	} else if ( is.numeric(centerNum) & !missing(zoom)) {  
+	  myMap <- list(lat.center = centerNum[1], lon.center  = centerNum[2], zoom = zoom, SCALE = SCALE);
+	  BBOX <- list(ll = XY2LatLon(myMap, -size[1]/2 + 0.5, -size[2]/2 - 0.5), ur = XY2LatLon(myMap, size[1]/2 + 0.5, size[2]/2 - 0.5) );
+	  MetaInfo <- list(lat.center = centerNum[1], lon.center  = centerNum[2], zoom = zoom, 
+	                   url = "google", BBOX = BBOX, size=size, SCALE = SCALE);
+	} 
+	if (missing(destfile)) destfile=file.path(tempdir(),"mapTile.png")
 	if (verbose == -1) browser();
-	if (verbose < 2 & NEWMAP) 
-	  download.file(url, destfile, mode="wb", quiet = TRUE);
+	
+	if (NEWMAP) {
+	  if (!missing(destfile)){ # destfile=file.path(tempdir(),"mapTile.png")
+  	  fileBase <- substring(destfile,1, nchar(destfile)-4);
+  	  fileExt <-  substring(destfile,nchar(destfile)-2,nchar(destfile));
+  	  #save meta information about the image:    
+  	  save(MetaInfo, file = paste(destfile,"rda",sep="."));
+	    download.file(urlStr, destfile, mode="wb", quiet = TRUE);
+	    myTile <- readPNG(destfile, native=FALSE);
+	  } else { #do not save to file, read direcly from connection
+	    #o new dependency on curl package: static maps are not saved to file by default any longer, instead read directly from connection
+  	  #connectStr=enc2utf8(gsub(' ','%20',"http://maps.google.com/maps/api/staticmap?center=42,-76&zoom=16&size=640x640&maptype=mobile&format=png32&sensor=true")) #Encode URL Parameters
+	    #connectStr=enc2utf8(gsub(' ','%20', urlStr))
+	    #does not work in RStudio, see http://stackoverflow.com/questions/18407177/load-image-from-website !!
+  #     con <- curl(urlStr, "rb")
+  # 	  binMap=readBin(con,raw(), 1E5)
+  # 	  
+  # 	  myTile <- readPNG(binMap, native=FALSE);
+  # 	  close(con)
+	  }
+	} else { #no new map download
+	  myMap <- ReadMapTile(destfile); 
+	}
 	
 	if (GRAYSCALE) {
-		myTile <- readPNG(destfile, native=FALSE);
 		#browser()
 		myTile <- RGB2GRAY(myTile);
-      	writePNG(myTile, destfile)
-	  }
+		if (!missing(destfile)) writePNG(myTile, destfile)
+	 }
 
 	if (RETURNIMAGE){
- 	  myMap <- ReadMapTile(destfile); 
-  	  return(myMap);
+ 	  #myMap <- ReadMapTile(destfile); 
+	  myMap <- list(lat.center= MetaInfo$lat.center, lon.center=MetaInfo$lon.center, zoom=MetaInfo$zoom, 
+	                myTile=myTile, BBOX = MetaInfo$BBOX, url = MetaInfo$url, size=size, SCALE=MetaInfo$SCALE);
+	  class(myMap) =  "staticMap"
+  	return(myMap);
  	}
  	
-	invisible(url)
+	invisible(urlStr)
 ### map structure or URL used to download the tile.
 }, ex = function(){
   lat = c(40.702147,40.718217,40.711614);
@@ -145,12 +168,12 @@
   markers = paste0("&markers=color:blue|label:S|40.702147,-74.015794&markers=color:",
                    "green|label:G|40.711614,-74.012318&markers=color:red|color:red|",
                    "label:C|40.718217,-73.998284")
-  MyMap <- GetMap(center=center, zoom=zoom,markers=markers,destfile = "MyTile1.png");
+  myMap <- GetMap(center=center, zoom=zoom,markers=markers);
   #Note that in the presence of markers one often needs to add some extra padding to the 
   #latitude range to accomodate the extent of the top most marker
   if (0){#takes too long to run for CRAN check
   #add a path, i.e. polyline:
-MyMap <- GetMap(center=center, zoom=zoom,destfile = "MyTile3.png",
+myMap <- GetMap(center=center, zoom=zoom,
   path = paste0("&path=color:0x0000ff|weight:5|40.737102,-73.990318|",
   "40.749825,-73.987963|40.752946,-73.987384|40.755823,-73.986397"));
   #use implicit geo coding 
@@ -168,7 +191,7 @@ MyMap <- GetMap(center=center, zoom=zoom,destfile = "MyTile3.png",
   
    #The example below defines a polygonal area within Manhattan, passed a series of 
   #intersections as locations:
-#MyMap <- GetMap(path = paste0("&path=color:0x00000000|weight:5|fillcolor:0xFFFF0033|",
+#myMap <- GetMap(path = paste0("&path=color:0x00000000|weight:5|fillcolor:0xFFFF0033|",
 #          "8th+Avenue+%26+34th+St,New+York,NY|8th+Avenue+%26+42nd+St,New+York,NY|",
 #          "Park+Ave+%26+42nd+St,New+York,NY,NY|Park+Ave+%26+34th+St,New+York,NY,NY"),
 #            destfile = "MyTile3a.png");
@@ -177,7 +200,7 @@ MyMap <- GetMap(center=center, zoom=zoom,destfile = "MyTile3.png",
   #argument to pass anything to the query, e.g. the style parameter:
   #The following example displays a map of Brooklyn where local roads have been changed 
   #to bright green and the residential areas have been changed to black:
-  # MyMap <- GetMap(center="Brooklyn", zoom=12, maptype = "roadmap", 
+  # myMap <- GetMap(center="Brooklyn", zoom=12, maptype = "roadmap", 
   #path = paste0("&style=feature:road.local|element:geometry|hue:0x00ff00|",
   #        "saturation:100&style=feature:landscape|element:geometry|lightness:-100"),
   #        sensor='false', destfile = "MyTile4.png",  RETURNIMAGE = FALSE);
@@ -192,10 +215,13 @@ MyMap <- GetMap(center=center, zoom=zoom,destfile = "MyTile3.png",
   #center explicitly, so it is better practice to compute them ourselves and 
   #pass them as arguments, in which case meta information on the map tile can be saved as well.
   
-  #MyMap <- GetMap(markers = paste0("&markers=color:blue|label:S|40.702147,-74.015794&",
+  #myMap <- GetMap(markers = paste0("&markers=color:blue|label:S|40.702147,-74.015794&",
   #          "markers=color:green|label:G|40.711614,-74.012318&markers=color:red|",
   #          "color:red|label:C|40.718217,-73.998284"), 
   #           destfile = "MyTile1.png",  RETURNIMAGE = FALSE);
   }
 })
 
+# library(png)
+# library(curl)
+# library(RgoogleMaps)

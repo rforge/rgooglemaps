@@ -26,6 +26,12 @@
 ){
   ##note<<Note that size is in order (lon, lat)
   
+  if (!NEWMAP) {
+    #no new map download
+    myMap <- ReadMapTile(destfile); 
+    return(myMap);
+  }
+  
   if (is.character(center)) {
     if (verbose) cat("geocoding ", center, "\n")
     center = getGeoCode(center,verbose)
@@ -186,9 +192,13 @@ myMap <- GetMap(center=center, zoom=zoom,
   
   #no highways
   ManHatMap <- GetMap(center="Lower Manhattan", zoom=14, 
-                      extraURL="&style=feature:road.highway|visibility:off")
+                      extraURL="&style=feature:road.highway|visibility:off",
+                      destfile = "LowerManhattan.png")
   PlotOnStaticMap(ManHatMap)
   
+  #reload the map without a new download:
+  ManHatMap <- GetMap(destfile = "LowerManhattan.png",NEWMAP=FALSE)
+  PlotOnStaticMap(ManHatMap)
    #The example below defines a polygonal area within Manhattan, passed a series of 
   #intersections as locations:
 #myMap <- GetMap(path = paste0("&path=color:0x00000000|weight:5|fillcolor:0xFFFF0033|",

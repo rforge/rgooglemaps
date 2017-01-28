@@ -133,7 +133,7 @@
   	  #save meta information about the image:    
   	  save(MetaInfo, file = paste(destfile,"rda",sep="."));
 	    download.file(urlStr, destfile, mode="wb", quiet = TRUE);
-	    myTile <- readPNG(destfile, native=FALSE);
+	    myTile <- readPNG(destfile, native=TRUE);
 	  } else { #do not save to file, read direcly from connection
 	    #o new dependency on curl package: static maps are not saved to file by default any longer, instead read directly from connection
   	  #connectStr=enc2utf8(gsub(' ','%20',"http://maps.google.com/maps/api/staticmap?center=42,-76&zoom=16&size=640x640&maptype=mobile&format=png32&sensor=true")) #Encode URL Parameters

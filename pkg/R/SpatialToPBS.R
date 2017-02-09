@@ -30,7 +30,7 @@ SpatialToPBS <- structure(function#converts spatial objects as defined in packag
         attr(xy, "projection") <- "LL"
       } else if (inherits(xy, "SpatialLines")) {
         res = list()
-        for (j in 1:length(xyl)){
+        for (j in 1:length(xy)){
           res[[j]] = xy@lines[[j]]@Lines[[1]]@coords
         }
         xy = res

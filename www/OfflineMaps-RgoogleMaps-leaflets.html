@@ -12,7 +12,7 @@
 
 <meta name="author" content="M Loecher" />
 
-<meta name="date" content="2017-02-09" />
+<meta name="date" content="2017-02-24" />
 
 <title>Offline Maps with RgoogleMaps and leaflets</title>
 
@@ -76,7 +76,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Offline Maps with RgoogleMaps and leaflets</h1>
 <h4 class="author"><em>M Loecher</em></h4>
-<h4 class="date"><em>2017-02-09</em></h4>
+<h4 class="date"><em>2017-02-24</em></h4>
 
 
 
@@ -142,8 +142,8 @@ mt=<span class="st"> </span><span class="kw">GetMapTiles</span>(<span class="st"
   m =<span class="st"> </span>m %&gt;%<span class="st"> </span>leaflet::<span class="kw">setView</span>(-<span class="fl">73.99733</span>, <span class="fl">40.73082</span> , <span class="dt">zoom =</span> <span class="dv">16</span>)
   m =<span class="st"> </span>m %&gt;%<span class="st"> </span>leaflet::<span class="kw">addMarkers</span>(-<span class="fl">73.99733</span>, <span class="fl">40.73082</span> )
   m</code></pre></div>
-<div id="htmlwidget-41b26f4478f0c0c93e38" style="width:768px;height:768px;" class="leaflet html-widget"></div>
-<script type="application/json" data-for="htmlwidget-41b26f4478f0c0c93e38">{"x":{"calls":[{"method":"addTiles","args":["http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"maxNativeZoom":null,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"continuousWorld":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":null,"unloadInvisibleTiles":null,"updateWhenIdle":null,"detectRetina":false,"reuseTiles":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap\u003c/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA\u003c/a>"}]},{"method":"addMarkers","args":[40.73082,-73.99733,null,null,null,{"clickable":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},null,null,null]}],"setView":[[40.73082,-73.99733],16,[]],"limits":{"lat":[40.73082,40.73082],"lng":[-73.99733,-73.99733]}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-d6685431d337373c2c3d" style="width:768px;height:768px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-d6685431d337373c2c3d">{"x":{"calls":[{"method":"addTiles","args":["http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"maxNativeZoom":null,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"continuousWorld":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":null,"unloadInvisibleTiles":null,"updateWhenIdle":null,"detectRetina":false,"reuseTiles":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap\u003c/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA\u003c/a>"}]},{"method":"addMarkers","args":[40.73082,-73.99733,null,null,null,{"clickable":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},null,null,null]}],"setView":[[40.73082,-73.99733],16,[]],"limits":{"lat":[40.73082,40.73082],"lng":[-73.99733,-73.99733]}},"evals":[],"jsHooks":[]}</script>
 <p>And for google map tiles:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(leaflet)
   m =<span class="st"> </span>leaflet::<span class="kw">leaflet</span>() %&gt;%<span class="st"> </span>
@@ -151,8 +151,8 @@ mt=<span class="st"> </span><span class="kw">GetMapTiles</span>(<span class="st"
   m =<span class="st"> </span>m %&gt;%<span class="st"> </span>leaflet::<span class="kw">setView</span>(-<span class="fl">73.99733</span>, <span class="fl">40.73082</span> , <span class="dt">zoom =</span> <span class="dv">16</span>)
   m =<span class="st"> </span>m %&gt;%<span class="st"> </span>leaflet::<span class="kw">addMarkers</span>(-<span class="fl">73.99733</span>, <span class="fl">40.73082</span> )
   m</code></pre></div>
-<div id="htmlwidget-7d803bf1835529b6567c" style="width:768px;height:768px;" class="leaflet html-widget"></div>
-<script type="application/json" data-for="htmlwidget-7d803bf1835529b6567c">{"x":{"calls":[{"method":"addTiles","args":["http://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}",null,null,{"minZoom":0,"maxZoom":18,"maxNativeZoom":null,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"continuousWorld":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":null,"unloadInvisibleTiles":null,"updateWhenIdle":null,"detectRetina":false,"reuseTiles":false}]},{"method":"addMarkers","args":[40.73082,-73.99733,null,null,null,{"clickable":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},null,null,null]}],"setView":[[40.73082,-73.99733],16,[]],"limits":{"lat":[40.73082,40.73082],"lng":[-73.99733,-73.99733]}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-e0a130c6fe387e30e5cf" style="width:768px;height:768px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-e0a130c6fe387e30e5cf">{"x":{"calls":[{"method":"addTiles","args":["http://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}",null,null,{"minZoom":0,"maxZoom":18,"maxNativeZoom":null,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"continuousWorld":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":null,"unloadInvisibleTiles":null,"updateWhenIdle":null,"detectRetina":false,"reuseTiles":false}]},{"method":"addMarkers","args":[40.73082,-73.99733,null,null,null,{"clickable":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},null,null,null]}],"setView":[[40.73082,-73.99733],16,[]],"limits":{"lat":[40.73082,40.73082],"lng":[-73.99733,-73.99733]}},"evals":[],"jsHooks":[]}</script>
 <p>And for stamen map tiles:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(leaflet)
   m =<span class="st"> </span>leaflet::<span class="kw">leaflet</span>() %&gt;%<span class="st"> </span>
@@ -160,8 +160,12 @@ mt=<span class="st"> </span><span class="kw">GetMapTiles</span>(<span class="st"
   m =<span class="st"> </span>m %&gt;%<span class="st"> </span>leaflet::<span class="kw">setView</span>(-<span class="fl">73.99733</span>, <span class="fl">40.73082</span> , <span class="dt">zoom =</span> <span class="dv">16</span>)
   m =<span class="st"> </span>m %&gt;%<span class="st"> </span>leaflet::<span class="kw">addMarkers</span>(-<span class="fl">73.99733</span>, <span class="fl">40.73082</span> )
   m</code></pre></div>
-<div id="htmlwidget-ae1089cd82807a10b0e2" style="width:768px;height:768px;" class="leaflet html-widget"></div>
-<script type="application/json" data-for="htmlwidget-ae1089cd82807a10b0e2">{"x":{"calls":[{"method":"addTiles","args":["http://tile.stamen.com/toner/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"maxNativeZoom":null,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"continuousWorld":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":null,"unloadInvisibleTiles":null,"updateWhenIdle":null,"detectRetina":false,"reuseTiles":false}]},{"method":"addMarkers","args":[40.73082,-73.99733,null,null,null,{"clickable":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},null,null,null]}],"setView":[[40.73082,-73.99733],16,[]],"limits":{"lat":[40.73082,40.73082],"lng":[-73.99733,-73.99733]}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-efe14c2ad786006218d0" style="width:768px;height:768px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-efe14c2ad786006218d0">{"x":{"calls":[{"method":"addTiles","args":["http://tile.stamen.com/toner/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"maxNativeZoom":null,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"continuousWorld":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":null,"unloadInvisibleTiles":null,"updateWhenIdle":null,"detectRetina":false,"reuseTiles":false}]},{"method":"addMarkers","args":[40.73082,-73.99733,null,null,null,{"clickable":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},null,null,null]}],"setView":[[40.73082,-73.99733],16,[]],"limits":{"lat":[40.73082,40.73082],"lng":[-73.99733,-73.99733]}},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="map-tiles-in-tableau" class="section level3">
+<h3>map tiles in Tableau</h3>
+<p>As Tableau also allows the Customization of map backgrounds (see e.g. <a href="https://blog.hwr-berlin.de/codeandstats/customizing-map-background-in-tableau/" class="uri">https://blog.hwr-berlin.de/codeandstats/customizing-map-background-in-tableau/</a>) we can apply the same offline server trick as above in order to use a local map tile server in Tableau!</p>
 </div>
 
 
